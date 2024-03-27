@@ -8,18 +8,12 @@ export default function ArticleCard({ article, onDelete }) {
     title: article.title,
     description: article.description,
     body: article.body,
+    published: article.published,
   });
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`../api/articles/${article.id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        onDelete(article.id);
-      } else {
-        console.error("Failed to delete article");
-      }
+      await onDelete(article.id); // Chama a função de exclusão diretamente com o ID do artigo
     } catch (error) {
       console.error("Error deleting article:", error);
     }
@@ -27,6 +21,10 @@ export default function ArticleCard({ article, onDelete }) {
 
   const handleEdit = () => {
     setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const handleSaveEdit = async (updatedArticle) => {
@@ -40,17 +38,27 @@ export default function ArticleCard({ article, onDelete }) {
       });
       if (response.ok) {
         setEditedArticle(updatedArticle);
+        setShowModal(false);
       } else {
         console.error("Failed to update article");
       }
     } catch (error) {
       console.error("Error updating article:", error);
     }
-    setShowModal(false);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handlePublish = async () => {
+    try {
+      const updatedArticle = {
+        ...editedArticle,
+        published: !editedArticle.published,
+      };
+
+      await handleSaveEdit(updatedArticle);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error publishing article:", error);
+    }
   };
 
   return (
@@ -63,19 +71,27 @@ export default function ArticleCard({ article, onDelete }) {
             </h3>
             <h6>{article.description}</h6>
           </div>
-          <p>{article.body}</p>
-          <button
-            className="bg-red-200 p-2 rounded-md text-black mr-2"
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-          <button
-            className="bg-red-200 p-2 rounded-md text-black"
-            onClick={handleEdit}
-          >
-            Editar
-          </button>
+          <p className="truncate">{article.body}</p>
+          <div className="flex justify-end gap-4 mt-6">
+            <button
+              className="bg-red-200 p-2 rounded-md text-black"
+              onClick={handleDelete}
+            >
+              Deletar post
+            </button>
+            <button
+              className="bg-sky-100 p-2 rounded-md text-black"
+              onClick={handleEdit}
+            >
+              Editar post
+            </button>
+            <button
+              className="bg-green-200 p-2 rounded-md text-black"
+              onClick={handlePublish}
+            >
+              {article.published ? "despublicar" : "publicar"}
+            </button>
+          </div>
         </div>
       </div>
       <EditedCardModal
