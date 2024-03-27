@@ -33,8 +33,8 @@ export default function Home() {
       if (response.ok) {
         const newArticle = await response.json();
         setArticles([...articles, newArticle]);
-        setShowForm(false); // Fechar o formulário após a criação do artigo
-        setNewArticleData({ title: "", description: "", body: "" }); // Limpar os dados do novo artigo
+        setShowForm(false);
+        setNewArticleData({ title: "", description: "", body: "" });
       } else {
         console.error("Failed to create article");
       }
