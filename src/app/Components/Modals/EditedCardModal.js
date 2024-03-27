@@ -8,6 +8,7 @@ export default function EditedCardModal({
   const handleSave = () => {
     onSave(editedArticle);
     onClose();
+    window.location.reload();
   };
 
   return (
