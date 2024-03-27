@@ -43,6 +43,10 @@ export default function Home() {
     }
   };
 
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
   const handleDelete = async (articleId) => {
     try {
       await fetch(`../api/articles/${articleId}`, {
@@ -101,12 +105,20 @@ export default function Home() {
               setNewArticleData({ ...newArticleData, body: e.target.value })
             }
           />
-          <button
-            onClick={createNewArticle}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Criar
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={createNewArticle}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            >
+              Criar
+            </button>
+            <button
+              onClick={closeForm}
+              className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
+            >
+              fechar
+            </button>
+          </div>
         </div>
       )}
 
