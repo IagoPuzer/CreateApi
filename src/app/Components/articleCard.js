@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import EditedCardModal from "./Modals/EditedCardModal";
+import Modal from "./Modals/Modal";
+import EditedArticleForm from "./forms/EditedArticleForm";
 
 export default function ArticleCard({ article, onDelete }) {
   const [showModal, setShowModal] = useState(false);
@@ -13,7 +14,7 @@ export default function ArticleCard({ article, onDelete }) {
 
   const handleDelete = async () => {
     try {
-      await onDelete(article.id); // Chama a função de exclusão diretamente com o ID do artigo
+      await onDelete(article.id);
     } catch (error) {
       console.error("Error deleting article:", error);
     }
@@ -94,13 +95,14 @@ export default function ArticleCard({ article, onDelete }) {
           </div>
         </div>
       </div>
-      <EditedCardModal
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        onSave={handleSaveEdit}
-        editedArticle={editedArticle}
-        setEditedArticle={setEditedArticle}
-      />
+      <Modal isOpen={showModal}>
+        <EditedArticleForm
+          onClose={handleCloseModal}
+          onSave={handleSaveEdit}
+          editedArticle={editedArticle}
+          setEditedArticle={setEditedArticle}
+        />
+      </Modal>
     </>
   );
 }
