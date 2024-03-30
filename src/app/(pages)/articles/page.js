@@ -1,6 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ArticleCard from "../../Components/articleCard";
+import { useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
@@ -58,9 +60,18 @@ export default function Home() {
     }
   };
 
+  const router = useRouter();
   useEffect(() => {
     fetchAllArticles();
-  }, []);
+    async function checkSession() {
+      const session = await getSession();
+      if (!session) {
+        router.push("/");
+      }
+    }
+
+    checkSession();
+  }, [router]);
 
   return (
     <div className="container mx-auto px-4 py-8">
