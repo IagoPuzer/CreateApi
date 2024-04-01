@@ -63,7 +63,6 @@ export default function Home() {
     fetchAllArticles();
     async function checkSession() {
       const session = await getSession();
-      console.log(session);
       if (!session) {
         router.push("/");
       } else {
