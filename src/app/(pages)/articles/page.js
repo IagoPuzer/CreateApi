@@ -10,6 +10,7 @@ import CreateArticleButton from "@/app/Components/buttons/CreateArticleButton";
 export default function Home() {
   const [articles, setArticles] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [session, setSession] = useState(null);
 
   const fetchAllArticles = async () => {
     try {
@@ -62,11 +63,13 @@ export default function Home() {
     fetchAllArticles();
     async function checkSession() {
       const session = await getSession();
+      console.log(session);
       if (!session) {
         router.push("/");
+      } else {
+        setSession(session);
       }
     }
-
     checkSession();
   }, [router]);
 
@@ -77,6 +80,7 @@ export default function Home() {
         <div className="flex gap-6">
           <CreateArticleButton onCreate={() => setShowForm(true)} />
           <LogoutButton />
+          {session && <span>{`Bem vindo ${session.user.name}`}</span>}
         </div>
       </div>
 
