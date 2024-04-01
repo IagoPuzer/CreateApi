@@ -11,6 +11,7 @@ export default function Home() {
   const [articles, setArticles] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [session, setSession] = useState(null);
+  const router = useRouter();
 
   const fetchAllArticles = async () => {
     try {
@@ -81,7 +82,6 @@ export default function Home() {
     }
   };
 
-  const router = useRouter();
   useEffect(() => {
     fetchAllArticles();
     async function checkSession() {
