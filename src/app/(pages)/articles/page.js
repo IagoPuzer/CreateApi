@@ -58,6 +58,29 @@ export default function Home() {
     }
   };
 
+  const handlePublish = async (articleId) => {
+    try {
+      const updatedArticles = articles.map((article) =>
+        article.id === articleId
+          ? { ...article, published: !article.published }
+          : article
+      );
+      setArticles(updatedArticles);
+
+      await fetch(`../api/articles/${articleId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          published: !articles.find((a) => a.id === articleId).published,
+        }),
+      });
+    } catch (error) {
+      console.error("Error publishing article:", error);
+    }
+  };
+
   const router = useRouter();
   useEffect(() => {
     fetchAllArticles();
@@ -93,6 +116,7 @@ export default function Home() {
             key={article.id}
             article={article}
             onDelete={handleDelete}
+            onPublish={handlePublish}
           />
         ))}
       </div>

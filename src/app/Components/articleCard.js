@@ -3,7 +3,7 @@ import { useState } from "react";
 import Modal from "./Modals/Modal";
 import EditedArticleForm from "./forms/EditedArticleForm";
 
-export default function ArticleCard({ article, onDelete }) {
+export default function ArticleCard({ article, onDelete, onPublish }) {
   const [showModal, setShowModal] = useState(false);
   const [editedArticle, setEditedArticle] = useState({
     title: article.title,
@@ -15,6 +15,14 @@ export default function ArticleCard({ article, onDelete }) {
   const handleDelete = async () => {
     try {
       await onDelete(article.id);
+    } catch (error) {
+      console.error("Error deleting article:", error);
+    }
+  };
+
+  const handlePublish = async () => {
+    try {
+      await onPublish(article.id);
     } catch (error) {
       console.error("Error deleting article:", error);
     }
@@ -45,20 +53,6 @@ export default function ArticleCard({ article, onDelete }) {
       }
     } catch (error) {
       console.error("Error updating article:", error);
-    }
-  };
-
-  const handlePublish = async () => {
-    try {
-      const updatedArticle = {
-        ...editedArticle,
-        published: !editedArticle.published,
-      };
-
-      await handleSaveEdit(updatedArticle);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error publishing article:", error);
     }
   };
 
