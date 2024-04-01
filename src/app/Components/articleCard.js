@@ -24,7 +24,7 @@ export default function ArticleCard({ article, onDelete, onPublish }) {
     try {
       await onPublish(article.id);
     } catch (error) {
-      console.error("Error deleting article:", error);
+      console.error("Error publish article:", error);
     }
   };
 
