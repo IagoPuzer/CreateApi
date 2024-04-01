@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import LogoutButton from "../../Components/buttons/LogoutButton";
 import CreateArticleForm from "@/app/Components/forms/CreateArticleForm";
+import CreateArticleButton from "@/app/Components/buttons/CreateArticleButton";
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
@@ -74,12 +75,7 @@ export default function Home() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Articles</h1>
         <div className="flex gap-6">
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Criar artigo
-          </button>
+          <CreateArticleButton onCreate={() => setShowForm(true)} />
           <LogoutButton />
         </div>
       </div>
